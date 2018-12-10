@@ -25,22 +25,6 @@ class FlatListDemo extends Component {
     if (this.props.data !== prevProps.data) {
       this.makeRemoteRequest();
     }
-    }
-
-  componentWillUpdate(nextProps) {
-    console.log(this.state.currIndex);
-  }
-
-  componentWillUnmount() {
-    console.log(this.state.currIndex);
-  }
-
-  componentWillMount() {
-    console.log(this.state.currIndex);
-  }
-
-  componentWillReceiveProps() {
-    console.log(this.state.currIndex);
   }
 
   renderHeader = () => {
@@ -65,14 +49,14 @@ class FlatListDemo extends Component {
   };
 
   dataUpdate = () => {
-    console.log("geldidataya")
-    console.log(this.props.data.postCategories[this.state.currIndex].posts)
+    console.log("geldidataya");
+    console.log(this.props.data.postCategories[this.state.currIndex].posts);
     this.props.data.postCategories[this.state.currIndex].posts.map(e =>
       this.setState(state => ({
         data: state.data.concat(e)
       }))
-    )
-  }
+    );
+  };
 
   makeRemoteRequest = () => {
     if (this.props.data.loading) {
@@ -89,14 +73,14 @@ class FlatListDemo extends Component {
         console.log(this.props.name);
         console.log(element.name);
         if (element.name === this.props.name) {
-          console.log("stepone")
+          console.log("stepone");
           this.setState({ currIndex: index }, () => {
-          this.dataUpdate()
+            this.dataUpdate();
           });
           console.log(this.state.currIndex);
         }
       });
-            this.setState({ loading: false });
+      this.setState({ loading: false });
     }
   };
 
