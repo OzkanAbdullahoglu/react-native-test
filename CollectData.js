@@ -13,7 +13,6 @@ class FlatListDemo extends Component {
   state = {
     categories: [],
     data: [],
-    name: "Javascript",
     currIndex: 0,
     page: 1,
     seed: 1,
@@ -26,14 +25,7 @@ class FlatListDemo extends Component {
     if (this.props.data !== prevProps.data) {
       this.makeRemoteRequest();
     }
-    if (this.props.name !== prevProps.name) {
-      console.log(prevProps.name);
-      console.log("truefor");
-      this.deneme();
-    } else {
-      console.log("yok");
     }
-  }
 
   componentWillUpdate(nextProps) {
     console.log(this.state.currIndex);
@@ -72,6 +64,16 @@ class FlatListDemo extends Component {
     );
   };
 
+  dataUpdate = () => {
+    console.log("geldidataya")
+    console.log(this.props.data.postCategories[this.state.currIndex].posts)
+    this.props.data.postCategories[this.state.currIndex].posts.map(e =>
+      this.setState(state => ({
+        data: state.data.concat(e)
+      }))
+    )
+  }
+
   makeRemoteRequest = () => {
     if (this.props.data.loading) {
       this.setState({ loading: true });
@@ -85,18 +87,16 @@ class FlatListDemo extends Component {
 
       this.props.data.postCategories.map((element, index) => {
         console.log(this.props.name);
+        console.log(element.name);
         if (element.name === this.props.name) {
-          this.setState({ currIndex: index });
+          console.log("stepone")
+          this.setState({ currIndex: index }, () => {
+          this.dataUpdate()
+          });
           console.log(this.state.currIndex);
         }
       });
-
-      this.props.data.postCategories[this.state.currIndex].posts.map(e =>
-        this.setState(state => ({
-          data: state.data.concat(e)
-        }))
-      );
-      this.setState({ loading: false });
+            this.setState({ loading: false });
     }
   };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import CollectData from "./CollectData";
+import CollectData from "../CollectData";
 import { List, ListItem } from "react-native-elements";
 
 const client = new ApolloClient({
