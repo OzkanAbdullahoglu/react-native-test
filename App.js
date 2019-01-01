@@ -13,14 +13,7 @@ export default class App extends React.Component {
     return (
       <NativeRouter>
         <View style={styles.container}>
-          <Switch>
-            <Route exact path="/" component={TabNavigator} />
-            <Route exact path="/screens/ReactScreen" component={Javascript} />
-            <Route exact path="/screens/Meteor" component={Meteor} />
-            <Route exact path="/screens/Javascript" component={ReactScreen} />
-            <Route exact path="/screens/OtherLang" component={OtherLang} />
-            <Route exact path="/screens/Settings" component={Settings} />
-          </Switch>
+          <Route exact path="/" component={TabNavigator} />
         </View>
       </NativeRouter>
     );
