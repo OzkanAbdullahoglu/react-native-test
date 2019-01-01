@@ -2,27 +2,56 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import CollectData from "../CollectData";
+import PostList from "../CollectData";
+import Client from "../Client";
+import PostData from "../PostData";
 import { List, ListItem } from "react-native-elements";
-
-const client = new ApolloClient({
-  uri: "http://fiipractic-react.cultofcoders.com/graphql"
-});
+import { NativeRouter, Route, Link } from "react-router-native";
+import PostMain from "./PostMain";
 
 export default class ReactScreen extends React.Component {
   state = {
-    name: "React"
+    name: "React",
+    _id: "a3Nj2WXsF7HEAbLAo",
+    route: "reactscreen",
+    show: true
+  };
+
+  componentDidMount() {
+    this.updateRoute(this.state.route);
+  }
+
+  updateRoute = route => {
+    this.props.initialRoute(route);
+  };
+
+  updateId = postId => {
+    this.setState({ _id: postId });
+    this.setState({ show: false });
+  };
+
+  toggleSinglePost = () => {
+    this.setState({ show: !this.state.show });
   };
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <List>
-          <ApolloProvider client={client}>
-            <CollectData name={this.state.name} />
-          </ApolloProvider>
-        </List>
-      </View>
+      <NativeRouter>
+        <View style={{ flex: 6 }}>
+          {this.state.show ? (
+            <List>
+              <ApolloProvider client={Client}>
+                <PostList name={this.state.name} filters={this.updateId} />
+              </ApolloProvider>
+            </List>
+          ) : (
+            <PostMain
+              filters={this.state._id}
+              toggleSinglePost={this.toggleSinglePost}
+            />
+          )}
+        </View>
+      </NativeRouter>
     );
   }
 }

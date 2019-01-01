@@ -1,44 +1,57 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import ApolloClient from "apollo-boost";
+import { View } from "react-native";
 import { ApolloProvider } from "react-apollo";
-import CollectData from "../CollectData";
-import { List, ListItem } from "react-native-elements";
-
-const client = new ApolloClient({
-  uri: "http://fiipractic-react.cultofcoders.com/graphql"
-});
+import PostList from "../CollectData";
+import { List } from "react-native-elements";
+import Client from "../Client";
+import PostMain from "./PostMain";
+import { NativeRouter } from "react-router-native";
 
 export default class Javascript extends React.Component {
   state = {
-    name: "JavaScript"
+    name: "JavaScript",
+    route: "javascript",
+    _id: "a3Nj2WXsF7HEAbLAo",
+    show: true
+  };
+
+  componentDidMount() {
+    this.updateRoute(this.state.route);
+  }
+
+  updateRoute = route => {
+    this.props.initialRoute(route);
+  };
+
+  updateId = postId => {
+    this.setState({ _id: postId });
+    this.setState({ show: false });
+  };
+
+  toggleSinglePost = () => {
+    this.setState({ show: !this.state.show });
   };
 
   render() {
     return (
-      <List>
-        <ApolloProvider client={client}>
-          <CollectData name={this.state.name} />
-        </ApolloProvider>
-      </List>
+      <NativeRouter>
+        <View style={{ flex: 6 }}>
+          {this.state.show ? (
+            <List>
+              <ApolloProvider client={Client}>
+                <PostList name={this.state.name} filters={this.updateId} />
+              </ApolloProvider>
+            </List>
+          ) : (
+            <View style={{ flex: 6 }}>
+              <PostMain
+                filters={this.state._id}
+                toggleSinglePost={this.toggleSinglePost}
+              />
+            </View>
+          )}
+        </View>
+      </NativeRouter>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    width: 370,
-    height: 50,
-    left: 5,
-    position: "absolute",
-    top: 500,
-    bottom: 0,
-    backgroundColor: "#f8f8f8",
-    justifyContent: "space-around",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2
-  }
-});
