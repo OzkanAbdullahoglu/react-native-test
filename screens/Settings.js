@@ -6,13 +6,22 @@ import { List, ListItem } from "react-native-elements";
 
 export default class Settings extends React.Component {
   state = {
-    name: "Settings"
+    name: "Settings",
+    route: "settings"
+  };
+
+  componentDidMount() {
+    this.updateRoute(this.state.route);
+  }
+
+  updateRoute = route => {
+    this.props.initialRoute(route);
   };
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Text>under construction</Text>
+      <View style={{ flex: 6, top: 100, alignItems: "center" }}>
+        <Text>Under construction</Text>
       </View>
     );
   }
