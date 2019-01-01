@@ -1,40 +1,79 @@
 import React, { Component } from "react";
 import gql from "graphql-tag";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import { graphql, ApolloProvider } from "react-apollo";
+import PostMain from "./screens/PostMain";
+import AddPost from "./PostMutation";
 import {
-  List,
-  ListItem,
-  SearchBar,
+  StyleSheet,
+  View,
+  FlatList,
+  TouchableHighlight,
+  Text,
   ActivityIndicator
-} from "react-native-elements";
+} from "react-native";
+import { graphql } from "react-apollo";
+import { ListItem, SearchBar, Button } from "react-native-elements";
+import { Route, Link } from "react-router-native";
+import escapeRegExp from "escape-string-regexp";
 
-class FlatListDemo extends Component {
+class PostList extends Component {
   state = {
     categories: [],
+    searchQuery: "",
+    categoryId: null,
     data: [],
     currIndex: 0,
-    page: 1,
-    seed: 1,
-    error: null,
-    refreshing: false,
-    loading: false
+    loading: false,
+    openPostBox: false,
+    inputPostTitle: null,
+    inputPostDesc: null
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidMount() {
+    this.reset();
+    this.makeRemoteRequest();
+  }
+
+  componentDidUpdate(prevProps, item) {
     if (this.props.data !== prevProps.data) {
+      this.reset();
       this.makeRemoteRequest();
     }
   }
 
+  updateTitle = title => {
+    this.setState({ inputPostTitle: title });
+  };
+
+  updateDesc = desc => {
+    this.setState({ inputPostDesc: desc });
+  };
+
+  togglePostDialog = () => {
+    this.setState({ openPostBox: !this.state.openPostBox });
+  };
+
+  reset = () => {
+    this.setState({ data: [] });
+  };
+
   renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." lightTheme round />;
+    return (
+      <SearchBar
+        placeholder="Type Here..."
+        lightTheme
+        round
+        onChangeText={text => this.filterHandler(text)}
+      />
+    );
+  };
+
+  filterHandler = text => {
+    this.setState({ searchQuery: text });
+    this.filterUpToSearch();
   };
 
   renderFooter = () => {
-    if (!this.state.loading) return null;
-
-    return (
+    return this.props.data.loading ? (
       <View
         style={{
           paddingVertical: 20,
@@ -43,14 +82,12 @@ class FlatListDemo extends Component {
           borderColor: "#CED0CE"
         }}
       >
-        <ActivityIndicator animating size="large" />
+        <ActivityIndicator animating="true" size="large" color="#0000ff" />
       </View>
-    );
+    ) : null;
   };
 
   dataUpdate = () => {
-    console.log("geldidataya");
-    console.log(this.props.data.postCategories[this.state.currIndex].posts);
     this.props.data.postCategories[this.state.currIndex].posts.map(e =>
       this.setState(state => ({
         data: state.data.concat(e)
@@ -62,39 +99,92 @@ class FlatListDemo extends Component {
     if (this.props.data.loading) {
       this.setState({ loading: true });
     } else {
-      this.setState({ loading: true });
+      this.setState({ loading: false });
       this.props.data.postCategories.map(object =>
         this.setState(state => ({
           categories: state.categories.concat(object)
         }))
       );
-
       this.props.data.postCategories.map((element, index) => {
-        console.log(this.props.name);
-        console.log(element.name);
         if (element.name === this.props.name) {
-          console.log("stepone");
+          this.setState({ categoryId: element._id });
           this.setState({ currIndex: index }, () => {
             this.dataUpdate();
           });
-          console.log(this.state.currIndex);
         }
       });
-      this.setState({ loading: false });
     }
+  };
+
+  filterUpToSearch = () => {
+    let filteredData;
+    if (this.state.searchQuery) {
+      let match = new RegExp(escapeRegExp(this.state.searchQuery), "i");
+      filteredData = this.state.data.filter(filterOut =>
+        match.test(filterOut.title)
+      );
+    } else {
+      filteredData = this.state.data;
+    }
+    return filteredData;
   };
 
   render() {
     return (
-      <FlatList
-        ListHeaderComponent={this.renderHeader}
-        data={this.state.data}
-        renderItem={({ item }) => (
-          <ListItem title={item.title} subtitle={item.description} />
-        )}
-        containerStyle={{ borderBottomWidth: 0 }}
-        ListFooterComponent={this.renderFooter}
-      />
+      <View>
+        <View style={styles.container}>
+          <FlatList
+            ListHeaderComponent={this.renderHeader}
+            data={this.filterUpToSearch()}
+            renderItem={({ item }) => (
+              <View>
+                <TouchableHighlight>
+                  <ListItem
+                    title={item.title}
+                    subtitle={item.description}
+                    variables={item._id}
+                    onPress={() => {
+                      this.props.filters(item._id);
+                    }}
+                  />
+                </TouchableHighlight>
+              </View>
+            )}
+            ListFooterComponent={this.renderFooter}
+            keyExtractor={item => item._id}
+          />
+        </View>
+        <View style={styles.box}>
+          <View>
+            <Button
+              onPress={() => {
+                this.togglePostDialog();
+              }}
+              MaterialCommunityIcons={{ name: "comment-outline" }}
+              backgroundColor="#03A9F4"
+              buttonStyle={{
+                borderRadius: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                marginBottom: 0
+              }}
+              title="Add Post"
+            />
+          </View>
+          {this.state.openPostBox && (
+            <View>
+              <AddPost
+                updateTitle={this.updateTitle}
+                updateDesc={this.updateDesc}
+                togglePostDialog={this.togglePostDialog}
+                inputPostTitle={this.state.inputPostTitle}
+                inputPostDesc={this.state.inputPostDesc}
+                category={this.state.categoryId}
+              />
+            </View>
+          )}
+        </View>
+      </View>
     );
   }
 }
@@ -105,27 +195,26 @@ export default graphql(gql`
       _id
       name
       posts {
+        _id
         title
         description
         userId
       }
     }
   }
-`)(FlatListDemo);
+`)(PostList);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    top: 1,
-    position: "relative",
-    backgroundColor: "#fff"
+    paddingBottom: 60,
+    backgroundColor: "#f0efef"
   },
-  title: {
-    width: 100,
-    height: 100,
-    shadowOpacity: 0.2,
-    shadowColor: "#000",
-    color: "blue",
-    fontWeight: "bold"
+  box: {
+    position: "absolute",
+    bottom: 0,
+    width: 300,
+    height: 50,
+    paddingBottom: 10,
+    alignSelf: "center"
   }
 });
