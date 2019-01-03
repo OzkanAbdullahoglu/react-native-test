@@ -4,11 +4,16 @@ import { Card, Text, Button } from "react-native-elements";
 
 export default class ModalForComments extends React.Component {
   state = {
+    //to hold the single comment data
     commentData: [],
-    userData: [],
-    modalVisible: false
-  };
+    //to hold user data in comments
+    userData: []
+    };
 
+    /**
+     *  @description after component did update we reset the data
+     *  and filter the single comment data from the props
+     */
   componentDidUpdate(prevProps, item) {
     if (this.props.visible !== prevProps.visible) {
       this.reset();
@@ -16,10 +21,16 @@ export default class ModalForComments extends React.Component {
     }
   }
 
+  /**
+   *  @description reset the data by manipulating the commentData state
+   */
   reset = () => {
     this.setState({ commentData: [] });
   };
 
+  /**
+   *  @description we are filtering the comment's data from props
+   */
   updateCommentData = () => {
     let commentObj = this.props.comments.filter(
       c => c.createdAt === this.props.filter
@@ -35,7 +46,6 @@ export default class ModalForComments extends React.Component {
     return (
       <View style={{ marginTop: 22 }}>
         <Modal
-          animationType="slide"
           transparent={true}
           visible={this.props.visible}
         >
