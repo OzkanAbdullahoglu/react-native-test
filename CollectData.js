@@ -12,27 +12,43 @@ import {
 } from "react-native";
 import { graphql } from "react-apollo";
 import { ListItem, SearchBar, Button } from "react-native-elements";
-import { Route, Link } from "react-router-native";
 import escapeRegExp from "escape-string-regexp";
 
 class PostList extends Component {
   state = {
+    //to hold categories of languages
     categories: [],
+    //seach query will be used in search bar
     searchQuery: "",
+    //to store categoryId
     categoryId: null,
+    //to hold all data from GraphQL
     data: [],
+    //to seperate posts from data
     currIndex: 0,
+    //to check loading process status
     loading: false,
+    //to check If add post is activated
     openPostBox: false,
+    //to take input as a post title
     inputPostTitle: null,
+    //to take input as a post description
     inputPostDesc: null
   };
 
+  /**
+   *  @description after component did mount we reset the data
+   *  and make a remote request to the GraphQL
+   */
   componentDidMount() {
     this.reset();
     this.makeRemoteRequest();
   }
 
+  /**
+   *  @description after component did update we reset the data
+   *  and make a remote request to the GraphQL
+   */
   componentDidUpdate(prevProps, item) {
     if (this.props.data !== prevProps.data) {
       this.reset();
@@ -40,22 +56,39 @@ class PostList extends Component {
     }
   }
 
+  /**
+   *  @description to update post title
+   *  @param {string} title
+   */
   updateTitle = title => {
     this.setState({ inputPostTitle: title });
   };
 
+  /**
+   *  @description to update post description
+   *  @param {string} desc
+   */
   updateDesc = desc => {
     this.setState({ inputPostDesc: desc });
   };
 
+  /**
+   *  @description to toggle add post input box
+   */
   togglePostDialog = () => {
     this.setState({ openPostBox: !this.state.openPostBox });
   };
 
+  /**
+   *  @description to reset data array
+   */
   reset = () => {
     this.setState({ data: [] });
   };
 
+  /**
+   *  @description to render search bar at the top of FlatList
+   */
   renderHeader = () => {
     return (
       <SearchBar
@@ -67,11 +100,18 @@ class PostList extends Component {
     );
   };
 
+  /**
+   *  @description to update search query and to trig search
+   *  @param {string} text
+   */
   filterHandler = text => {
     this.setState({ searchQuery: text });
     this.filterUpToSearch();
   };
 
+  /**
+   *  @description to trig ActivityIndicator If loading status is true
+   */
   renderFooter = () => {
     return this.props.data.loading ? (
       <View
@@ -82,11 +122,14 @@ class PostList extends Component {
           borderColor: "#CED0CE"
         }}
       >
-        <ActivityIndicator animating="true" size="large" color="#0000ff" />
+        <ActivityIndicator  size="large" color="#0000ff" />
       </View>
     ) : null;
   };
 
+  /**
+   *  @description to update data with the current language's posts
+   */
   dataUpdate = () => {
     this.props.data.postCategories[this.state.currIndex].posts.map(e =>
       this.setState(state => ({
@@ -95,6 +138,10 @@ class PostList extends Component {
     );
   };
 
+  /**
+   *  @description to perform remote request to the GraphQL
+   *  @param {string} title
+   */
   makeRemoteRequest = () => {
     if (this.props.data.loading) {
       this.setState({ loading: true });
@@ -116,6 +163,9 @@ class PostList extends Component {
     }
   };
 
+  /**
+   *  @description to perform a dynamic search up to the searchQuery
+   */
   filterUpToSearch = () => {
     let filteredData;
     if (this.state.searchQuery) {
@@ -189,6 +239,7 @@ class PostList extends Component {
   }
 }
 
+//we are seting up query to communicate with GraphQL API
 export default graphql(gql`
   {
     postCategories {
