@@ -15,10 +15,18 @@ export default class TabNavigator extends React.Component {
     isLoading: true
   };
 
+  /**
+   *  @description after component did mount we trig initRouteManage
+   *  to get the init route and perform
+   */
   componentDidMount() {
     this.initRouteManage();
   }
 
+  /**
+   *  @description we send to the store the init route
+   *  @param {string} initRoute
+   */
   setInitRoute = async initRoute => {
     try {
       await AsyncStorage.setItem("initRoute", initRoute);
@@ -27,6 +35,10 @@ export default class TabNavigator extends React.Component {
     }
   };
 
+  /**
+   *  @description we get the init route from the store
+   *  and return the init route
+   */
   getInitRoute = async () => {
     let initialRoute = "";
     try {
@@ -40,6 +52,10 @@ export default class TabNavigator extends React.Component {
     return initialRoute;
   };
 
+  /**
+   *  @description we get the init route and we manipulate
+   *  initRouteHandler state with this data so we will redirect that route
+   */
   initRouteManage = () => {
     this.getInitRoute().then(res => {
       this.setState({ initRouteHandler: res });
@@ -58,7 +74,7 @@ export default class TabNavigator extends React.Component {
               borderColor: "#CED0CE"
             }}
           >
-            <ActivityIndicator animating="true" size="large" color="#0000ff" />
+            <ActivityIndicator  size="large" color="#0000ff" />
           </View>
         ) : (
           <NativeRouter>
