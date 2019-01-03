@@ -4,6 +4,7 @@ import { Mutation, graphql, compose } from "react-apollo";
 import { Modal, View, TextInput } from "react-native";
 import { Button } from "react-native-elements";
 
+//to set up the query for post mutation
 const ADD_POST = gql`
   mutation addPost($input: PostCreateInput) {
     addPost(input: $input) {
@@ -14,6 +15,7 @@ const ADD_POST = gql`
   }
 `;
 
+//to set up the query for users and tags data
 const Query = gql`
   {
     users {
@@ -59,7 +61,7 @@ const AddPost = props => {
       {(addPost, { data }) => (
         <View>
           <Modal
-            animationType="slide"
+          animationType="slide"
             transparent={true}
             visible={props.visible}
           >
