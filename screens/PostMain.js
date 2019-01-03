@@ -7,10 +7,10 @@ import PostData from "../PostData";
 import { NativeRouter } from "react-router-native";
 
 export default class PostMain extends React.Component {
-  state = {
-    _id: "a3Nj2WXsF7HEAbLAo"
-  };
 
+  /**
+   *  @description we use post_id to filter single post
+   */
   filterSinglePost = () => {
     return { _id: this.props.filters };
   };
