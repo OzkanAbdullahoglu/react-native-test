@@ -15,19 +15,35 @@ export default class OtherLang extends React.Component {
     show: true
   };
 
+  /**
+   *  @description after component did mount we trig updateRoute
+   *  to set the init route as javascript
+   */
   componentDidMount() {
     this.updateRoute(this.state.route);
   }
 
+  /**
+   *  @description we are seting initial route
+   *  @param {string} route
+   */
   updateRoute = route => {
     this.props.initialRoute(route);
   };
 
+  /**
+   *  @description we are updating postId to pass It as a prop to the PostMain Component
+   *  @param {string} postId
+   */
   updateId = postId => {
     this.setState({ _id: postId });
     this.setState({ show: false });
   };
 
+  /**
+   *  @description we are manipulating state.show so we decide to show main screen
+   *  or single post screen (PostMain)
+   */
   toggleSinglePost = () => {
     this.setState({ show: !this.state.show });
   };
