@@ -4,6 +4,7 @@ import { Mutation, graphql, compose } from "react-apollo";
 import { Modal, View, TextInput } from "react-native";
 import { Button } from "react-native-elements";
 
+//to set up the query for comment mutation
 const ADD_COMMENT = gql`
   mutation addComment($input: CommentCreateInput) {
     addComment(input: $input) {
@@ -13,6 +14,7 @@ const ADD_COMMENT = gql`
   }
 `;
 
+//to set up the query for user data
 const Query = gql`
   {
     users {
@@ -77,7 +79,7 @@ const AddComment = props => {
       {(addComment, { data }) => (
         <View>
           <Modal
-            animationType="slide"
+          animationType="slide"
             transparent={true}
             visible={props.visible}
           >
