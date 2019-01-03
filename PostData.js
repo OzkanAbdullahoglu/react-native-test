@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import gql from "graphql-tag";
-import {
-  MaterialCommunityIcons,
-  FontAwesome,
-  Ionicons
-} from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { View, ScrollView, Platform } from "react-native";
 import { graphql } from "react-apollo";
 import { ListItem, Card, Text, Button, Icon } from "react-native-elements";
@@ -12,6 +8,7 @@ import Client from "./Client";
 import ModalForComments from "./screens/ModalForComments";
 import AddComment from "./CommentMutation";
 
+//to set up the query for the post data
 const QueryPosts = gql`
   query getPosts($filters: JSON, $options: JSON) {
     posts(filters: $filters, options: $options) {
@@ -50,16 +47,26 @@ const QueryPosts = gql`
 
 class PostData extends Component {
   state = {
+    //to hold all comments data
     comments: [],
+    //to hald all data about single post
     data: [],
+    //to control loading status
     loading: false,
+    //to manipulate modal visibility
     modalVisible: false,
+    //to manipulate single comment input modal window
     toggleComModal: false,
+    //to check If there is any comment yet
     noComment: false,
-    singleComment: null,
-    trig: false
+    //to take a comment input
+    singleComment: null
   };
 
+  /**
+   *  @description after component did update we reset the data
+   *  and make a remote request to the GraphQL
+   */
   componentDidUpdate(prevProps, item) {
     if (this.props.data !== prevProps.data) {
       this.reset();
@@ -67,26 +74,46 @@ class PostData extends Component {
     }
   }
 
+  /**
+   *  @description after component did mount we reset the data
+   *  and make a remote request to the GraphQL
+   */
   componentDidMount() {
     if (this.props.data.loading === false) {
       this.dataUpdate();
     }
   }
 
+  /**
+   *  @description after component did mount we reset the data
+   *  and make a remote request to the GraphQL
+   *  @param {string} text
+   */
   updateText = text => {
     this.setState({ singleComment: text });
     this.setState({ noComment: false });
   };
 
+  /**
+   *  @description to toggle modal for comments visibility
+   *  @param {string} visible
+   */
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
   };
 
+  /**
+   *  @description to reset all post and comment data
+   */
   reset = () => {
     this.setState({ data: [] });
     this.setState({ comments: [] });
   };
 
+  /**
+   *  @description to find out If there is any comment
+   *  @param {object} obj
+   */
   showProps = obj => {
     for (let i in obj) {
       if (obj.hasOwnProperty(i)) {
@@ -95,6 +122,9 @@ class PostData extends Component {
     }
   };
 
+  /**
+   *  @description to get the post and comment data
+   */
   dataUpdate = () => {
     let obj = this.props.data.posts.map(e => e.comments);
     this.props.data.posts.map(e =>
@@ -116,6 +146,9 @@ class PostData extends Component {
     }
   };
 
+  /**
+   *  @description to toggle add comment modal visibility
+   */
   toggleComModal = () => {
     this.setState({ toggleComModal: !this.state.toggleComModal });
   };
@@ -175,7 +208,6 @@ class PostData extends Component {
                     toggleComDialog={this.toggleComDialog}
                     postId={this.props.filter._id}
                     visible={this.toggleComModal}
-                    trig={this.props.trig}
                     dataUpdate={this.dataUpdate}
                     filter={this.props.filter}
                   />
