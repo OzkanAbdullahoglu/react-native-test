@@ -11,7 +11,9 @@ import { Redirect, NativeRouter, Route, Link } from "react-router-native";
 
 export default class TabNavigator extends React.Component {
   state = {
-    initRouteHandler: "",
+    //this state will control init route and set to javascipt route as default
+    initRouteHandler: "javascript",
+    //to control loading status
     isLoading: true
   };
 
@@ -27,7 +29,7 @@ export default class TabNavigator extends React.Component {
    *  @description we send to the store the init route
    *  @param {string} initRoute
    */
-  setInitRoute = async initRoute => {
+  setInitRoute = async initRoute  => {
     try {
       await AsyncStorage.setItem("initRoute", initRoute);
     } catch (error) {
