@@ -1,18 +1,18 @@
-import React from "react";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { ActivityIndicator, Platform } from "react-native";
-import { AsyncStorage, StyleSheet, View } from "react-native";
-import Meteor from "./screens/Meteor";
-import ReactScreen from "./screens/ReactScreen";
-import Javascript from "./screens/Javascript";
-import OtherLang from "./screens/OtherLang";
-import Settings from "./screens/Settings";
-import { Redirect, NativeRouter, Route, Link } from "react-router-native";
+import React from 'react';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Redirect, NativeRouter, Route, Link } from 'react-router-native';
+import { AsyncStorage, StyleSheet, View, ActivityIndicator, Platform } from 'react-native';
+import Meteor from './screens/Meteor';
+import ReactScreen from './screens/ReactScreen';
+import Javascript from './screens/Javascript';
+import OtherLang from './screens/OtherLang';
+import Settings from './screens/Settings';
+
 
 export default class TabNavigator extends React.Component {
   state = {
     //this state will control init route and set to javascipt route as default
-    initRouteHandler: "javascript",
+    initRouteHandler: 'javascript',
     //to control loading status
     isLoading: true
   };
@@ -29,9 +29,9 @@ export default class TabNavigator extends React.Component {
    *  @description we send to the store the init route
    *  @param {string} initRoute
    */
-  setInitRoute = async initRoute  => {
+  setInitRoute = async initRoute => {
     try {
-      await AsyncStorage.setItem("initRoute", initRoute);
+      await AsyncStorage.setItem('initRoute', initRoute);
     } catch (error) {
       console.log(error.message);
     }
@@ -42,10 +42,10 @@ export default class TabNavigator extends React.Component {
    *  and return the init route
    */
   getInitRoute = async () => {
-    let initialRoute = "";
+    let initialRoute = '';
     try {
-      initialRoute = await AsyncStorage.getItem("initRoute");
-      if (initialRoute !== "") {
+      initialRoute = await AsyncStorage.getItem('initRoute');
+      if (initialRoute !== '') {
         this.setState({ isLoading: false });
       }
     } catch (error) {
@@ -73,10 +73,10 @@ export default class TabNavigator extends React.Component {
               paddingVertical: 20,
               borderTopWidth: 1,
               borderBottomWidth: 0,
-              borderColor: "#CED0CE"
+              borderColor: '#CED0CE'
             }}
           >
-            <ActivityIndicator  size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color="#0000ff" />
           </View>
         ) : (
           <NativeRouter>
@@ -106,19 +106,19 @@ export default class TabNavigator extends React.Component {
                 component={() => <Settings initialRoute={this.setInitRoute} />}
               />
               <View style={styles.container}>
-                {this.state.initRouteHandler === "javascript" ? (
+                {this.state.initRouteHandler === 'javascript' ? (
                   <View>
                     <Redirect to="/javascript" />
                   </View>
-                ) : this.state.initRouteHandler === "meteor" ? (
+                ) : this.state.initRouteHandler === 'meteor' ? (
                   <View>
                     <Redirect to="/meteor" />
                   </View>
-                ) : this.state.initRouteHandler === "reactscreen" ? (
+                ) : this.state.initRouteHandler === 'reactscreen' ? (
                   <View>
                     <Redirect to="/reactscreen" />
                   </View>
-                ) : this.state.initRouteHandler === "other" ? (
+                ) : this.state.initRouteHandler === 'other' ? (
                   <View>
                     <Redirect to="/other" />
                   </View>
@@ -151,9 +151,9 @@ export default class TabNavigator extends React.Component {
                 <Link to="/other">
                   <Ionicons
                     name={
-                      Platform.OS === "ios"
-                        ? "ios-code-working"
-                        : "md-code-working"
+                      Platform.OS === 'ios'
+                        ? 'ios-code-working'
+                        : 'md-code-working'
                     }
                     size={60}
                     color="purple"
@@ -162,7 +162,7 @@ export default class TabNavigator extends React.Component {
                 <Link to="/settings">
                   <Ionicons
                     name={
-                      Platform.OS === "ios" ? "ios-settings" : "md-settings"
+                      Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'
                     }
                     size={60}
                     color="#7e7a7a"
@@ -183,11 +183,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     height: 30,
     paddingBottom: 20,
-    flexDirection: "row",
-    backgroundColor: "#fff7ee",
-    justifyContent: "space-around",
-    alignItems: "flex-end",
-    shadowColor: "#000",
+    flexDirection: 'row',
+    backgroundColor: '#fff7ee',
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2
   }
