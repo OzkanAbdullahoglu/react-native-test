@@ -153,9 +153,10 @@ class PostData extends Component {
   };
 
   render() {
+      const { data, toggleComModal, noComment, comments } = this.state;
     return (
       <View style={{ flex: 1, marginTop: 20 }}>
-        {this.state.data.map((e, i) => (
+        {data.map((e, i) => (
           <View
             key={i}
             style={{ flex: 0.65, height: '100%', paddingBottom: 25 }}
@@ -199,7 +200,7 @@ class PostData extends Component {
                   />
                 </View>
               </View>
-              {this.state.toggleComModal && (
+              {toggleComModal && (
                 <View style={{ flex: 1 }}>
                   <AddComment
                     singleComment={this.state.singleComment}
@@ -221,8 +222,8 @@ class PostData extends Component {
               containerStyle={{ padding: 5, marginTop: 20, height: '100%' }}
               title='Comments'
             >
-              {!this.state.noComment ? (
-                this.state.comments.map((c, k) => (
+              {!noComment ? (
+                comments.map((c, k) => (
                   <View key={k}>
                     <ListItem
                       key={k}

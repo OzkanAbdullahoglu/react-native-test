@@ -176,6 +176,7 @@ class PostList extends Component {
     );
 
   render() {
+      const { openPostBox } = this.state;
     return (
       <View>
         <View style={styles.container}>
@@ -217,7 +218,7 @@ class PostList extends Component {
               title="Add Post"
             />
           </View>
-          {this.state.openPostBox && (
+          {openPostBox && (
             <View>
               <AddPost
                 updateTitle={this.updateTitle}

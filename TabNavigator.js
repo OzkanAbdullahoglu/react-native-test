@@ -65,9 +65,11 @@ export default class TabNavigator extends React.Component {
   };
 
   render() {
+    const { isLoading, initRouteHandler } = this.state;
+    const { value } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        {this.state.isLoading ? (
+        {isLoading ? (
           <View
             style={{
               paddingVertical: 20,
@@ -106,19 +108,19 @@ export default class TabNavigator extends React.Component {
                 component={() => <Settings initialRoute={this.setInitRoute} />}
               />
               <View style={styles.container}>
-                {this.state.initRouteHandler === 'javascript' ? (
+                {initRouteHandler === 'javascript' ? (
                   <View>
                     <Redirect to="/javascript" />
                   </View>
-                ) : this.state.initRouteHandler === 'meteor' ? (
+                ) : initRouteHandler === 'meteor' ? (
                   <View>
                     <Redirect to="/meteor" />
                   </View>
-                ) : this.state.initRouteHandler === 'reactscreen' ? (
+                ) : initRouteHandler === 'reactscreen' ? (
                   <View>
                     <Redirect to="/reactscreen" />
                   </View>
-                ) : this.state.initRouteHandler === 'other' ? (
+                ) : initRouteHandler === 'other' ? (
                   <View>
                     <Redirect to="/other" />
                   </View>

@@ -49,17 +49,18 @@ export default class OtherLang extends React.Component {
   };
 
   render() {
+    const { show, name, _id } = this.state;
     return (
       <NativeRouter>
         <View style={{ flex: 6 }}>
-          {this.state.show ? (
+          {show ? (
             <List>
               <ApolloProvider client={Client}>
-                <PostList name={this.state.name} filters={this.updateId} />
+                <PostList name={name} filters={this.updateId} />
               </ApolloProvider>
             </List>
           ) : (
-            <PostMain filters={this.state._id} toggleSinglePost={this.toggleSinglePost} />
+            <PostMain filters={_id} toggleSinglePost={this.toggleSinglePost} />
           )}
         </View>
       </NativeRouter>

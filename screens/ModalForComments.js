@@ -43,6 +43,7 @@ export default class ModalForComments extends React.Component {
   };
 
   render() {
+    const { commentData } = this.state;
     return (
       <View style={{ marginTop: 22 }}>
         <Modal
@@ -58,7 +59,7 @@ export default class ModalForComments extends React.Component {
           >
             <View>
               <Card style={{ flex: 1 }}>
-                {this.state.commentData.map((c, k) => (
+                {commentData.map((c, k) => (
                   <View key={k}>
                     <Text style={{ marginBottom: 10, fontSize: 15 }} key={k}>
                       {c.text}
