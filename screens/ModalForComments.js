@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Modal, TouchableHighlight, View } from "react-native";
-import { Card, Text, Button } from "react-native-elements";
+import React from 'react';
+import { Modal, View } from 'react-native';
+import { Card, Text, Button } from 'react-native-elements';
 
 export default class ModalForComments extends React.Component {
   state = {
@@ -14,7 +14,7 @@ export default class ModalForComments extends React.Component {
      *  @description after component did update we reset the data
      *  and filter the single comment data from the props
      */
-  componentDidUpdate(prevProps, item) {
+  componentDidUpdate(prevProps) {
     if (this.props.visible !== prevProps.visible) {
       this.reset();
       this.updateCommentData();
@@ -32,7 +32,7 @@ export default class ModalForComments extends React.Component {
    *  @description we are filtering the comment's data from props
    */
   updateCommentData = () => {
-    let commentObj = this.props.comments.filter(
+    const commentObj = this.props.comments.filter(
       c => c.createdAt === this.props.filter
     );
     commentObj.map(e =>
@@ -46,14 +46,14 @@ export default class ModalForComments extends React.Component {
     return (
       <View style={{ marginTop: 22 }}>
         <Modal
-          transparent={true}
+          transparent
           visible={this.props.visible}
         >
           <View
             style={{
               flex: 1,
               paddingTop: 220,
-              backgroundColor: "rgba(52, 52, 52, 0.8)"
+              backgroundColor: 'rgba(52, 52, 52, 0.8)'
             }}
           >
             <View>
@@ -71,8 +71,8 @@ export default class ModalForComments extends React.Component {
                   </View>
                 ))}
                 <Button
-                  MaterialCommunityIcons={{ name: "comment-outline" }}
-                  backgroundColor="#03A9F4"
+                  MaterialCommunityIcons={{ name: 'comment-outline' }}
+                  backgroundColor='#03A9F4'
                   buttonStyle={{
                     borderRadius: 0,
                     marginTop: 15,

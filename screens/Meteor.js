@@ -1,17 +1,18 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { ApolloProvider } from "react-apollo";
-import PostList from "../CollectData";
-import Client from "../Client";
-import { List } from "react-native-elements";
-import { NativeRouter } from "react-router-native";
-import PostMain from "./PostMain";
+import React from 'react';
+import { View } from 'react-native';
+import { List } from 'react-native-elements';
+import { NativeRouter } from 'react-router-native';
+import { ApolloProvider } from 'react-apollo';
+import PostList from '../CollectData';
+import Client from '../Client';
+
+import PostMain from './PostMain';
 
 export default class Meteor extends React.Component {
   state = {
-    name: "Meteor",
-    route: "meteor",
-    _id: "a3Nj2WXsF7HEAbLAo",
+    name: 'Meteor',
+    route: 'meteor',
+    _id: 'a3Nj2WXsF7HEAbLAo',
     show: true
   };
 
@@ -69,21 +70,3 @@ export default class Meteor extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    width: 370,
-    height: 50,
-    left: 5,
-    position: "absolute",
-    top: 500,
-    bottom: 0,
-    backgroundColor: "#f8f8f8",
-    justifyContent: "space-around",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2
-  }
-});

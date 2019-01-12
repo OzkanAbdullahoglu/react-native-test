@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import gql from "graphql-tag";
-import { Mutation, graphql, compose } from "react-apollo";
-import { Modal, View, TextInput } from "react-native";
-import { Button } from "react-native-elements";
+import React from 'react';
+import gql from 'graphql-tag';
+import { Mutation, graphql, compose } from 'react-apollo';
+import { Modal, View, TextInput } from 'react-native';
+import { Button } from 'react-native-elements';
 
 //to set up the query for post mutation
 const ADD_POST = gql`
@@ -32,8 +32,7 @@ const Query = gql`
   }
 `;
 
-const AddPost = props => {
-  return (
+const AddPost = props => (
     <Mutation
       mutation={ADD_POST}
       refetchQueries={() => {
@@ -58,42 +57,42 @@ const AddPost = props => {
         ];
       }}
     >
-      {(addPost, { data }) => (
+      {(addPost) => (
         <View>
           <Modal
           animationType="slide"
-            transparent={true}
+            transparent
             visible={props.visible}
           >
             <View
               style={{
                 flex: 1,
                 paddingTop: 150,
-                backgroundColor: "rgba(52, 52, 52, 0.8)"
+                backgroundColor: 'rgba(52, 52, 52, 0.8)'
               }}
             >
               <TextInput
                 style={{
                   height: 40,
-                  borderColor: "gray",
-                  backgroundColor: "white",
+                  borderColor: 'gray',
+                  backgroundColor: 'white',
                   borderWidth: 2,
                   margin: 5
                 }}
-                placeholder="Your Post Title"
+                placeholder='Your Post Title'
                 onChangeText={text => props.updateTitle(text)}
               />
               <TextInput
                 style={{
                   height: 140,
-                  borderColor: "gray",
-                  backgroundColor: "white",
+                  borderColor: 'gray',
+                  backgroundColor: 'white',
                   borderWidth: 2,
                   margin: 5
                 }}
-                multiline={true}
+                multiline
                 numberOfLines={4}
-                placeholder="Your Post Description"
+                placeholder='Your Post Description'
                 onChangeText={text => props.updateDesc(text)}
               />
               <Button
@@ -113,8 +112,8 @@ const AddPost = props => {
                   });
                   props.togglePostDialog();
                 }}
-                MaterialCommunityIcons={{ name: "comment-outline" }}
-                backgroundColor="#03A9F4"
+                MaterialCommunityIcons={{ name: 'comment-outline' }}
+                backgroundColor='#03A9F4'
                 buttonStyle={{
                   borderRadius: 0,
                   marginLeft: 0,
@@ -129,6 +128,5 @@ const AddPost = props => {
       )}
     </Mutation>
   );
-};
 
 export default compose(graphql(Query))(AddPost);

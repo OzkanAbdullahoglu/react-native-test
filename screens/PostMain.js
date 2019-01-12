@@ -1,19 +1,17 @@
-import React, { Component } from "react";
-import gql from "graphql-tag";
-import { View } from "react-native";
-import { ApolloProvider } from "react-apollo";
-import Client from "../Client";
-import PostData from "../PostData";
-import { NativeRouter } from "react-router-native";
+import React from 'react';
+import { NativeRouter } from 'react-router-native';
+import { View } from 'react-native';
+import { ApolloProvider } from 'react-apollo';
+import Client from '../Client';
+import PostData from '../PostData';
+
 
 export default class PostMain extends React.Component {
 
   /**
    *  @description we use post_id to filter single post
    */
-  filterSinglePost = () => {
-    return { _id: this.props.filters };
-  };
+  filterSinglePost = () => ({ _id: this.props.filters });
 
   render() {
     return (

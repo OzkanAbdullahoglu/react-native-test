@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import gql from "graphql-tag";
-import { Mutation, graphql, compose } from "react-apollo";
-import { Modal, View, TextInput } from "react-native";
-import { Button } from "react-native-elements";
+import React from 'react';
+import gql from 'graphql-tag';
+import { Mutation, graphql, compose } from 'react-apollo';
+import { Modal, View, TextInput } from 'react-native';
+import { Button } from 'react-native-elements';
 
 //to set up the query for comment mutation
 const ADD_COMMENT = gql`
@@ -26,8 +26,7 @@ const Query = gql`
   }
 `;
 
-const AddComment = props => {
-  return (
+const AddComment = props => (
     <Mutation
       mutation={ADD_COMMENT}
       refetchQueries={() => {
@@ -76,26 +75,26 @@ const AddComment = props => {
         ];
       }}
     >
-      {(addComment, { data }) => (
+      {(addComment) => (
         <View>
           <Modal
           animationType="slide"
-            transparent={true}
+            transparent
             visible={props.visible}
           >
             <View
               style={{
                 flex: 1,
                 paddingTop: 220,
-                backgroundColor: "rgba(52, 52, 52, 0.8)"
+                backgroundColor: 'rgba(52, 52, 52, 0.8)'
               }}
             >
               <TextInput
                 style={{
                   height: 150,
-                  borderColor: "white",
+                  borderColor: 'white',
                   borderWidth: 1,
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   margin: 15,
                   padding: 10
                 }}
@@ -116,8 +115,8 @@ const AddComment = props => {
                   });
                   props.visible();
                 }}
-                MaterialCommunityIcons={{ name: "comment-outline" }}
-                backgroundColor="#03A9F4"
+                MaterialCommunityIcons={{ name: 'comment-outline' }}
+                backgroundColor='#03A9F4'
                 buttonStyle={{
                   borderRadius: 0,
                   marginLeft: 0,
@@ -132,6 +131,5 @@ const AddComment = props => {
       )}
     </Mutation>
   );
-};
 
 export default compose(graphql(Query))(AddComment);

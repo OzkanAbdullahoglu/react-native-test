@@ -1,12 +1,11 @@
-import React, { Component } from "react";
-import gql from "graphql-tag";
-import { Ionicons } from "@expo/vector-icons";
-import { View, ScrollView, Platform } from "react-native";
-import { graphql } from "react-apollo";
-import { ListItem, Card, Text, Button, Icon } from "react-native-elements";
-import Client from "./Client";
-import ModalForComments from "./screens/ModalForComments";
-import AddComment from "./CommentMutation";
+import React, { Component } from 'react';
+import gql from 'graphql-tag';
+import { Ionicons } from '@expo/vector-icons';
+import { View, ScrollView, Platform } from 'react-native';
+import { graphql } from 'react-apollo';
+import { ListItem, Card, Text, Icon } from 'react-native-elements';
+import ModalForComments from './screens/ModalForComments';
+import AddComment from './CommentMutation';
 
 //to set up the query for the post data
 const QueryPosts = gql`
@@ -64,17 +63,6 @@ class PostData extends Component {
   };
 
   /**
-   *  @description after component did update we reset the data
-   *  and make a remote request to the GraphQL
-   */
-  componentDidUpdate(prevProps, item) {
-    if (this.props.data !== prevProps.data) {
-      this.reset();
-      this.dataUpdate();
-    }
-  }
-
-  /**
    *  @description after component did mount we reset the data
    *  and make a remote request to the GraphQL
    */
@@ -85,14 +73,15 @@ class PostData extends Component {
   }
 
   /**
-   *  @description after component did mount we reset the data
+   *  @description after component did update we reset the data
    *  and make a remote request to the GraphQL
-   *  @param {string} text
    */
-  updateText = text => {
-    this.setState({ singleComment: text });
-    this.setState({ noComment: false });
-  };
+  componentDidUpdate(prevProps) {
+    if (this.props.data !== prevProps.data) {
+      this.reset();
+      this.dataUpdate();
+    }
+  }
 
   /**
    *  @description to toggle modal for comments visibility
@@ -100,6 +89,16 @@ class PostData extends Component {
    */
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
+  };
+
+  /**
+   *  @description after component did mount we reset the data
+   *  and make a remote request to the GraphQL
+   *  @param {string} text
+   */
+  updateText = text => {
+    this.setState({ singleComment: text });
+    this.setState({ noComment: false });
   };
 
   /**
@@ -115,7 +114,7 @@ class PostData extends Component {
    *  @param {object} obj
    */
   showProps = obj => {
-    for (let i in obj) {
+    for (const i in obj) {
       if (obj.hasOwnProperty(i)) {
         return obj[i];
       }
@@ -126,7 +125,7 @@ class PostData extends Component {
    *  @description to get the post and comment data
    */
   dataUpdate = () => {
-    let obj = this.props.data.posts.map(e => e.comments);
+    const obj = this.props.data.posts.map(e => e.comments);
     this.props.data.posts.map(e =>
       this.setState(state => ({
         data: state.data.concat(e)
@@ -159,9 +158,9 @@ class PostData extends Component {
         {this.state.data.map((e, i) => (
           <View
             key={i}
-            style={{ flex: 0.65, height: "100%", paddingBottom: 25 }}
+            style={{ flex: 0.65, height: '100%', paddingBottom: 25 }}
           >
-            <Card containerStyle={{ height: "100%" }} key={i} title={e.title}>
+            <Card containerStyle={{ height: '100%' }} key={i} title={e.title}>
               <Text key={i} style={{ marginBottom: 5 }}>
                 {e.description}
               </Text>
@@ -185,17 +184,17 @@ class PostData extends Component {
                     name="comment-o"
                     color="#5388d0"
                     containerStyle={{
-                      alignSelf: "center"
+                      alignSelf: 'center'
                     }}
                   />
                 </View>
                 <View style={{ bottom: 40, width: 100 }}>
                   <Ionicons
                     name={
-                      Platform.OS === "ios" ? "ios-arrow-back" : "md-arrow-back"
+                      Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'
                     }
                     size={40}
-                    color="purple"
+                    color='purple'
                     onPress={this.props.toggleSinglePost}
                   />
                 </View>
@@ -219,8 +218,8 @@ class PostData extends Component {
         <View style={{ flex: 0.35 }}>
           <ScrollView>
             <Card
-              containerStyle={{ padding: 5, marginTop: 20, height: "100%" }}
-              title="Comments"
+              containerStyle={{ padding: 5, marginTop: 20, height: '100%' }}
+              title='Comments'
             >
               {!this.state.noComment ? (
                 this.state.comments.map((c, k) => (
