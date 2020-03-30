@@ -17,7 +17,7 @@
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.0",
     "node-fetch": "^2.3.0",
-    "react": "16.5.0",
+    "react": "16.13.1",
     "react-apollo": "^2.5.8",
     "react-devtools": "^4.6.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
