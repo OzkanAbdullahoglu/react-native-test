@@ -15,7 +15,7 @@
     "escape-string-regexp": "^1.0.5",
     "expo": "^31.0.2",
     "graphql": "^14.6.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.0",
     "graphql-tag": "^2.10.3",
     "react": "16.13.1",
     "react-apollo": "^2.5.8",
@@ -24,7 +24,7 @@
     "react-native-elements": "^0.19.1",
     "react-native-vector-icons": "^6.6.0",
     "react-router-native": "^4.3.0",
-    "snyk": "^1.305.0"
+    "snyk": "^1.399.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
