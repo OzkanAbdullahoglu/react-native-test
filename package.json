@@ -9,7 +9,7 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "apollo-boost": "^0.4.8",
+    "apollo-boost": "^0.4.9",
     "apollo-cache-inmemory": "^1.6.6",
     "@expo/vector-icons": "^10.1.0",
     "escape-string-regexp": "^1.0.5",
